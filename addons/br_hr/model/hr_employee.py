@@ -60,6 +60,16 @@ class HrEmployee(models.Model):
             rest = 11 - rest
         if rest != digits[10]:
             raise ValidationError(_("PIS/PASEP Inválido"))
+    
+    regime_contratacao = fields.Selection(
+        string=u'Regime de contratação',
+        selection=[('estagio', u'Estágio'),
+                   ('coop', u'Cooperado'),
+                   ('pj', u'Pessoa Jurídica'),
+                   ('clt', u'CLT')])
+
+    contrato_trabalho = fields.Char(
+        string=u'Nº do contrato')
 
     pis_pasep = fields.Char(u'PIS/PASEP', size=15)
     ctps = fields.Char('CTPS', help=u'Número da CTPS')
@@ -104,7 +114,6 @@ class HrEmployee(models.Model):
                                      compute=_number_dependents)
     no_of_dependent_health_plan = fields.Integer(u'Número de dependentes',
                                                  compute=_number_dependents)
-
 
 class HrEmployeeDependent(models.Model):
     _name = 'hr.employee.dependent'
